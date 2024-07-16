@@ -1,17 +1,9 @@
-# use the golang:alpine base image
-FROM golang:alpine
+FROM python:3.8
+LABEL maintainer="Katie Gamanji"
 
-# set the working directory to /go/src/app
-WORKDIR /go/src/app
+COPY . /app
+WORKDIR /app
+RUN pip install -r requirements.txt
 
-# copy all the files from the current directory to the container working directory
-ADD . .
-
-# import dependencies using `go mod init` and build the application using `go build -o helloworld` command
-RUN  go mod init && go build -o helloworld
-
-# expose the port 6111
-EXPOSE 6111
-
-# start the container
-CMD ["./helloworld"]
+# command to run on container start
+CMD [ "python", "app.py" ]
